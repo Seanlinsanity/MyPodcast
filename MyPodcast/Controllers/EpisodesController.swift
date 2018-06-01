@@ -25,7 +25,7 @@ class EpisodesController: UITableViewController{
         guard let feedUrl = podcast?.feedUrl else { return }
         
         APIService.shared.fetchEpisode(feedUrl: feedUrl) { (episodes) in
-            self.episdoes = episodes
+            self.episodes = episodes
             
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -33,7 +33,7 @@ class EpisodesController: UITableViewController{
         }
     }
     
-    var episdoes = [Episode]()
+    var episodes = [Episode]()
     
     private let cellId = "cellId"
     
@@ -60,29 +60,24 @@ class EpisodesController: UITableViewController{
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return episdoes.isEmpty ? 200 : 0
+        return episodes.isEmpty ? 200 : 0
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let episode = episdoes[indexPath.row]
+        let episode = episodes[indexPath.row]
         let mainTabBarController = UIApplication.shared.keyWindow?.rootViewController as? MainTabBarController
-        mainTabBarController?.maximizePlayerDetails(episode: episode)
+        mainTabBarController?.maximizePlayerDetails(episode: episode, playlistEpisodes: self.episodes)
 
-//        let playerDetailView = PlayerDetailView()
-//        playerDetailView.episode = episode
-//        let window = UIApplication.shared.keyWindow
-//
-//        window?.addSubview(playerDetailView)
-//        playerDetailView.frame = self.view.frame
+        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return episdoes.count
+        return episodes.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! EpisodeCell
-        let episode = episdoes[indexPath.row]
+        let episode = episodes[indexPath.row]
         cell.episode = episode
         
         return cell
