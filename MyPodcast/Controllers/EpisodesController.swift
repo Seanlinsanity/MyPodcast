@@ -15,7 +15,6 @@ class EpisodesController: UITableViewController{
     var podcast: Podcast?{
         didSet{
             navigationItem.title = podcast?.trackName
-            
             fetchEpisodes()
         }
     }
@@ -41,11 +40,36 @@ class EpisodesController: UITableViewController{
         super.viewDidLoad()
         
         setupTableView()
-
+        setupNavigationBarButtons()
     }
     
     //MARK:- Setup work
-    private func setupTableView(){
+    
+    fileprivate func setupNavigationBarButtons(){
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(title: "Favorite", style: .plain, target: self, action: #selector(handleSaveFavorite)),
+            UIBarButtonItem(title: "Fetch", style: .plain, target: self, action: #selector(handleFetchSavedPodcasts)),
+
+        ]
+    }
+    
+    let favoritedPodcastKey = "favortiedPodcastKey"
+    @objc fileprivate func handleSaveFavorite(){
+        
+        guard let podcast = self.podcast else { return }
+        //1. Transform Podcast into Data
+        let data = NSKeyedArchiver.archivedData(withRootObject: podcast)
+        
+        UserDefaults.standard.set(data, forKey: favoritedPodcastKey)
+    }
+    
+    @objc fileprivate func handleFetchSavedPodcasts(){
+        guard let data = UserDefaults.standard.data(forKey: favoritedPodcastKey) else { return }
+        let podcast = NSKeyedUnarchiver.unarchiveObject(with: data) as? Podcast
+        print(podcast?.trackName)
+    }
+    
+    fileprivate func setupTableView(){
         tableView.register(EpisodeCell.self, forCellReuseIdentifier: cellId)
         tableView.tableFooterView = UIView()
     }
