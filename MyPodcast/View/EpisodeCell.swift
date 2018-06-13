@@ -31,6 +31,7 @@ class EpisodeCell: UITableViewCell {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.contentMode = .scaleAspectFill
+        iv.backgroundColor = .lightGray
         iv.clipsToBounds = true
         return iv
     }()
