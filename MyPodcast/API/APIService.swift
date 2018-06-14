@@ -16,10 +16,36 @@ class APIService{
     //singleton
     static let shared = APIService()
     
+    func downloadEpisode(episode: Episode){
+        
+        let downloadRequest = DownloadRequest.suggestedDownloadDestination()
+        Alamofire.download(episode.streamUrl, to: downloadRequest).downloadProgress { (progress) in
+            
+            print(progress.fractionCompleted)
+            
+            }.response { (response) in
+                
+                print(response.destinationURL?.absoluteString ?? "")
+                var downloadedEpisodes = UserDefaults.standard.downloadEpisodes()
+                guard let index = downloadedEpisodes.index(where: {$0.title == episode.title && $0.author == episode.author}) else { return }
+                downloadedEpisodes[index].fileUrl = response.destinationURL?.absoluteString ?? ""
+                
+                do{
+                    let data = try JSONEncoder().encode(downloadedEpisodes)
+                    UserDefaults.standard.set(data, forKey: UserDefaults.downloadEpisodesKey)
+
+                }catch let err{
+                    print("Failed to encode download episodes with file url: ", err)
+                }
+                
+        }
+
+    }
+    
+    
     func fetchEpisode(feedUrl: String, completionHandler: @escaping ([Episode]) -> ()){
      
         let secureFeedUrl = feedUrl.contains("https") ? feedUrl : feedUrl.replacingOccurrences(of: "http", with: "https")
-        
         
         guard let url = URL(string: secureFeedUrl) else { return }
         

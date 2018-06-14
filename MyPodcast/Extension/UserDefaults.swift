@@ -41,7 +41,7 @@ extension UserDefaults{
     }
     
     func downloadEpisodes() -> [Episode]{
-        guard let episodesData = data(forKey: UserDefaults.downloadEpisodesKey) else { return []}
+        guard let episodesData = data(forKey: UserDefaults.downloadEpisodesKey) else { return [] }
         
         do{
             let episodes = try JSONDecoder().decode([Episode].self, from: episodesData)
