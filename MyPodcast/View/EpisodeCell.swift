@@ -50,6 +50,19 @@ class EpisodeCell: UITableViewCell {
         return lb
     }()
     
+    let downloadProgressLabel: UILabel = {
+        let lb = UILabel()
+        lb.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        lb.textColor = .white
+        lb.textAlignment = .center
+        lb.shadowColor = .black
+        lb.shadowOffset = CGSize(width: 0, height: 1)
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        lb.text = "0%"
+        lb.isHidden = true
+        return lb
+    }()
+    
     let descriptionLabel: UILabel = {
         let lb = UILabel()
         lb.font = UIFont.systemFont(ofSize: 14)
@@ -67,6 +80,13 @@ class EpisodeCell: UITableViewCell {
         episodeImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 16).isActive = true
         episodeImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
         episodeImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        
+        addSubview(downloadProgressLabel)
+        downloadProgressLabel.centerXAnchor.constraint(equalTo: episodeImageView.centerXAnchor).isActive = true
+        downloadProgressLabel.centerYAnchor.constraint(equalTo: episodeImageView.centerYAnchor).isActive = true
+        downloadProgressLabel.widthAnchor.constraint(equalTo: episodeImageView.widthAnchor, constant: -16).isActive = true
+        downloadProgressLabel.heightAnchor.constraint(equalTo: episodeImageView.heightAnchor).isActive = true
+        
         
         let stackView = UIStackView(arrangedSubviews: [pubDateLabel, titleLabel, descriptionLabel])
         stackView.axis = .vertical
