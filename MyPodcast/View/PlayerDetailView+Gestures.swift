@@ -24,6 +24,7 @@ extension PlayerDetailView {
     
     func handlePanChanged(gesture: UIPanGestureRecognizer){
         let translation = gesture.translation(in: self.superview)
+        print(translation.x, translation.y)
         self.transform = CGAffineTransform(translationX: 0, y: translation.y)
         self.miniPlayerView.alpha = 1 + translation.y / 200
         self.maximizedStackView.alpha = -translation.y / 200
