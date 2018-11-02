@@ -8,7 +8,7 @@
 
 #import "SearchController.h"
 #import "Podcast.h"
-#import "Alamofire-Swift.h"
+#import "APIService.h"
 
 @interface SearchController ()
 @property (nonatomic, strong) NSMutableArray *podcasts;
@@ -41,37 +41,12 @@ NSString *cellId = @"cellId";
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    NSString *urlString = [NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@", searchText];
-    NSURL *url = [NSURL URLWithString:urlString];
-    [[NSURLSession.sharedSession dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"Search iTunes Error: %@", error.debugDescription);
-            return;
-        }
-        
-        NSError *jsonError;
-        NSDictionary *searchResult = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
-        if (jsonError) {
-            NSLog(@"Json Error: %@", jsonError.debugDescription);
-            return;
-        }
-
-        NSNumber *count = searchResult[@"resultCount"];
-        NSArray *results = searchResult[@"results"];
-        [self.podcasts removeAllObjects];
-        
-        for (NSDictionary *result in results){
-            Podcast *podcast = [[Podcast alloc] initWithName:result[@"trackName"] artistName:result[@"artistName"]];
-            [self.podcasts addObject:podcast];
-        }
-        
+    [[APIService sharedInstance] fetchPodcastsWithSearchText:searchText withCompletion:^(NSMutableArray * _Nonnull podcasts) {
+        self.podcasts = podcasts;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
         });
-        
-    }] resume];
-    
-    NSLog(@"%@", urlString);
+    }];
 }
 
 //MARK:- Setup TableView
