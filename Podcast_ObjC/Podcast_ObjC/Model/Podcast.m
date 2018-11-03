@@ -9,17 +9,14 @@
 #import "Podcast.h"
 
 @implementation Podcast
-- (id)initWithName: (nullable NSString*)trackName artistName: (nullable NSString*)artistName{
+- (id)initWithDictionary: (nullable NSDictionary*)dict{
     self = [super init];
     if (self) {
-        if (!trackName) {
-            trackName = @"";
-        }
-        if (!artistName) {
-            artistName = @"";
-        }
-        self.trackName = trackName;
-        self.artistName = artistName;
+        self.trackName = dict[@"trackName"];
+        self.artistName = dict[@"artistName"];
+        self.artworkUrl600 = dict[@"artworkUrl600"];
+        self.trackCount = dict[@"trackCount"];
+        self.feedUrl = dict[@"feedUrl"];
     }
     return self;
 }

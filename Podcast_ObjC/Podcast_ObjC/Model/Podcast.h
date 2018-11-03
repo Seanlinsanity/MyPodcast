@@ -13,7 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Podcast : NSObject
 @property (nonatomic, strong) NSString *trackName;
 @property (nonatomic, strong) NSString *artistName;
-- (id)initWithName: (nullable NSString*)trackName artistName: (nullable NSString*)artistName;
+@property (nonatomic, strong) NSString *artworkUrl600;
+@property (nonatomic, strong) NSNumber *trackCount;
+@property (nonatomic, strong) NSString *feedUrl;
+- (id)initWithDictionary: (nullable NSDictionary*)dict;
 @end
 
 NS_ASSUME_NONNULL_END

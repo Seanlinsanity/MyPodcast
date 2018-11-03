@@ -9,6 +9,7 @@
 #import "SearchController.h"
 #import "Podcast.h"
 #import "APIService.h"
+#import "PodcastCell.h"
 
 @interface SearchController ()
 @property (nonatomic, strong) NSMutableArray *podcasts;
@@ -16,18 +17,13 @@
 @end
 
 @implementation SearchController
-NSString *cellId = @"cellId";
+static NSString *cellId = @"cellId";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setupSearchBar];
     [self setupTableView];
-    
-    Podcast *podcast = [[Podcast alloc] initWithName:@"Apple" artistName:@"Steve Cook"];
-    Podcast *podcast2 = [[Podcast alloc] initWithName:@"Let's Build That App" artistName:@"Brian Voong"];
-    self.podcasts = [[NSMutableArray alloc] initWithObjects:podcast, podcast2, nil];
-    
 }
 
 //MARK:- Setup SearchBar
@@ -52,7 +48,24 @@ NSString *cellId = @"cellId";
 //MARK:- Setup TableView
 
 - (void)setupTableView {
-    [self.tableView registerClass:UITableViewCell.self forCellReuseIdentifier:cellId];
+    self.tableView.tableFooterView = [UIView new];
+    [self.tableView registerClass:PodcastCell.self forCellReuseIdentifier:cellId];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UILabel *label = [UILabel new];
+    label.text = @"No results, please enter a search query.";
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [UIFont systemFontOfSize:18 weight:UIFontWeightSemibold];
+    return label;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (self.podcasts.count > 0) {
+        return 0;
+    }else{
+        return 250;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -60,14 +73,14 @@ NSString *cellId = @"cellId";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellId forIndexPath:indexPath];
+    PodcastCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellId forIndexPath:indexPath];
     Podcast *podcast = self.podcasts[indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@\n%@", podcast.trackName, podcast.artistName];
-    cell.textLabel.numberOfLines = 0;
-    cell.imageView.image = [UIImage imageNamed:@"appicon"];
+    cell.podcast = podcast;
     return cell;
 }
 
-
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 132;
+}
 
 @end

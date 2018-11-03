@@ -24,7 +24,7 @@
 
 - (void) fetchPodcastsWithSearchText: (NSString *)searchText withCompletion: (void(^)(NSMutableArray *podcasts)) completion {
     NSString *modifiedSearchText = [searchText stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSString *urlString = [NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@", modifiedSearchText];
+    NSString *urlString = [NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@&entity=podcast", modifiedSearchText];
     NSURL *url = [NSURL URLWithString:urlString];
     
     [[NSURLSession.sharedSession dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -45,7 +45,7 @@
         NSMutableArray *podcasts = [NSMutableArray new];
         
         for (NSDictionary *result in results){
-            Podcast *podcast = [[Podcast alloc] initWithName:result[@"trackName"] artistName:result[@"artistName"]];
+            Podcast *podcast = [[Podcast alloc] initWithDictionary:result];
             [podcasts addObject:podcast];
         }
         completion(podcasts);
