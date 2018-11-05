@@ -14,6 +14,8 @@
 		1486516621899A3D006805DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1486516521899A3D006805DE /* Assets.xcassets */; };
 		1486516921899A3D006805DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1486516721899A3D006805DE /* LaunchScreen.storyboard */; };
 		1486516C21899A3D006805DE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1486516B21899A3D006805DE /* main.m */; };
+		149D830F2190315D001F00B8 /* EpisodesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 149D830E2190315D001F00B8 /* EpisodesController.m */; };
+		149D831221903432001F00B8 /* Episode.m in Sources */ = {isa = PBXBuildFile; fileRef = 149D831121903432001F00B8 /* Episode.m */; };
 		14B863F821899BD100AEA052 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B863F721899BD000AEA052 /* MainTabBarController.m */; };
 		14B863FB21899BD900AEA052 /* SearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B863FA21899BD900AEA052 /* SearchController.m */; };
 		14B863FF21899BEB00AEA052 /* Podcast.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B863FD21899BEB00AEA052 /* Podcast.m */; };
@@ -36,6 +38,10 @@
 		1486516821899A3D006805DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1486516A21899A3D006805DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1486516B21899A3D006805DE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		149D830D2190315D001F00B8 /* EpisodesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EpisodesController.h; sourceTree = "<group>"; };
+		149D830E2190315D001F00B8 /* EpisodesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EpisodesController.m; sourceTree = "<group>"; };
+		149D831021903432001F00B8 /* Episode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Episode.h; sourceTree = "<group>"; };
+		149D831121903432001F00B8 /* Episode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Episode.m; sourceTree = "<group>"; };
 		14B863F621899BC500AEA052 /* MainTabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTabBarController.h; sourceTree = "<group>"; };
 		14B863F721899BD000AEA052 /* MainTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabBarController.m; sourceTree = "<group>"; };
 		14B863F921899BD900AEA052 /* SearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchController.h; sourceTree = "<group>"; };
@@ -125,6 +131,8 @@
 				14B863FE21899BEB00AEA052 /* Podcast.h */,
 				14B863FD21899BEB00AEA052 /* Podcast.m */,
 				14B864232189A3BF00AEA052 /* Person.swift */,
+				149D831021903432001F00B8 /* Episode.h */,
+				149D831121903432001F00B8 /* Episode.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -136,6 +144,8 @@
 				14B8640121899BF900AEA052 /* ViewController.m */,
 				14B863F921899BD900AEA052 /* SearchController.h */,
 				14B863FA21899BD900AEA052 /* SearchController.m */,
+				149D830D2190315D001F00B8 /* EpisodesController.h */,
+				149D830E2190315D001F00B8 /* EpisodesController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -234,11 +244,13 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Podcast_ObjC/Pods-Podcast_ObjC-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/MWFeedParser/MWFeedParser.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MWFeedParser.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -271,6 +283,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				149D831221903432001F00B8 /* Episode.m in Sources */,
 				14B8640221899BF900AEA052 /* ViewController.m in Sources */,
 				14B863FF21899BEB00AEA052 /* Podcast.m in Sources */,
 				145D306A218C471600F2C5D1 /* APIService.m in Sources */,
@@ -278,6 +291,7 @@
 				1486515E21899A3A006805DE /* AppDelegate.m in Sources */,
 				14B864242189A3BF00AEA052 /* Person.swift in Sources */,
 				14B863F821899BD100AEA052 /* MainTabBarController.m in Sources */,
+				149D830F2190315D001F00B8 /* EpisodesController.m in Sources */,
 				14B863FB21899BD900AEA052 /* SearchController.m in Sources */,
 				145D306E218C561F00F2C5D1 /* PodcastCell.m in Sources */,
 			);

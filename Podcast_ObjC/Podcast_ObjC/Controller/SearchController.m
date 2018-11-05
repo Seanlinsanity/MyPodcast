@@ -10,6 +10,7 @@
 #import "Podcast.h"
 #import "APIService.h"
 #import "PodcastCell.h"
+#import "EpisodesController.h"
 
 @interface SearchController ()
 @property (nonatomic, strong) NSMutableArray *podcasts;
@@ -34,6 +35,7 @@ static NSString *cellId = @"cellId";
     self.searchController.searchBar.delegate = self;
     self.navigationItem.searchController = self.searchController;
     self.navigationItem.hidesSearchBarWhenScrolling = NO;
+    self.definesPresentationContext = YES;
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
@@ -61,11 +63,7 @@ static NSString *cellId = @"cellId";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (self.podcasts.count > 0) {
-        return 0;
-    }else{
-        return 250;
-    }
+    return self.podcasts.count > 0 ? 0 : 250;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -77,6 +75,13 @@ static NSString *cellId = @"cellId";
     Podcast *podcast = self.podcasts[indexPath.row];
     cell.podcast = podcast;
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    EpisodesController *episodesController = [EpisodesController new];
+    Podcast *podcast = self.podcasts[indexPath.row];
+    episodesController.podcast = podcast;
+    [self.navigationController pushViewController:episodesController animated:true];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
