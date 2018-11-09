@@ -7,12 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MWFeedParser.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Episode : NSObject
 @property (strong, nonatomic) NSString *title;
-- (id)initWithTitle: (NSString *)title;
+@property (strong, nonatomic) NSDate *date;
+@property (strong, nonatomic) NSString *content;
+@property (strong, nonatomic) NSString *imageUrl;
+- (id)initWithFeed: (MWFeedItem *)item;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -8,6 +8,7 @@
 
 #import "PodcastCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "NSString_http.h"
 
 @implementation PodcastCell
 
@@ -15,7 +16,7 @@
     self.trackNameLabel.text = podcast.trackName;
     self.artistNameLabel.text = podcast.artistName;
     self.episodeCountLabel.text = [[NSString alloc] initWithFormat:@"%ld Episodes", (long)podcast.trackCount.integerValue];
-    NSURL *url = [[NSURL alloc] initWithString:podcast.artworkUrl600];
+    NSURL *url = [[NSURL alloc] initWithString:[podcast.artworkUrl600 toSecureHTTPS]];
     [self.podcastImageView sd_setImageWithURL:url completed:nil];
     _podcast = podcast;
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1402235D21913B2C00068034 /* NSString_http.m in Sources */ = {isa = PBXBuildFile; fileRef = 1402235C21913B2C00068034 /* NSString_http.m */; };
 		145D306A218C471600F2C5D1 /* APIService.m in Sources */ = {isa = PBXBuildFile; fileRef = 145D3069218C471600F2C5D1 /* APIService.m */; };
 		145D306E218C561F00F2C5D1 /* PodcastCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 145D306D218C561F00F2C5D1 /* PodcastCell.m */; };
 		1486515E21899A3A006805DE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1486515D21899A3A006805DE /* AppDelegate.m */; };
@@ -14,8 +15,10 @@
 		1486516621899A3D006805DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1486516521899A3D006805DE /* Assets.xcassets */; };
 		1486516921899A3D006805DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1486516721899A3D006805DE /* LaunchScreen.storyboard */; };
 		1486516C21899A3D006805DE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1486516B21899A3D006805DE /* main.m */; };
+		148F4817219534A3000B7F59 /* PlayerDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 148F4816219534A3000B7F59 /* PlayerDetailsView.m */; };
 		149D830F2190315D001F00B8 /* EpisodesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 149D830E2190315D001F00B8 /* EpisodesController.m */; };
 		149D831221903432001F00B8 /* Episode.m in Sources */ = {isa = PBXBuildFile; fileRef = 149D831121903432001F00B8 /* Episode.m */; };
+		149D8315219044CE001F00B8 /* EpisodeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 149D8314219044CE001F00B8 /* EpisodeCell.m */; };
 		14B863F821899BD100AEA052 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B863F721899BD000AEA052 /* MainTabBarController.m */; };
 		14B863FB21899BD900AEA052 /* SearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B863FA21899BD900AEA052 /* SearchController.m */; };
 		14B863FF21899BEB00AEA052 /* Podcast.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B863FD21899BEB00AEA052 /* Podcast.m */; };
@@ -26,6 +29,8 @@
 
 /* Begin PBXFileReference section */
 		0ACDCB2473B5C6784B956C3D /* Pods_Podcast_ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Podcast_ObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1402235B21913B2C00068034 /* NSString_http.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSString_http.h; sourceTree = "<group>"; };
+		1402235C21913B2C00068034 /* NSString_http.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSString_http.m; sourceTree = "<group>"; };
 		145D3068218C471600F2C5D1 /* APIService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIService.h; sourceTree = "<group>"; };
 		145D3069218C471600F2C5D1 /* APIService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIService.m; sourceTree = "<group>"; };
 		145D306C218C561F00F2C5D1 /* PodcastCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PodcastCell.h; sourceTree = "<group>"; };
@@ -38,10 +43,14 @@
 		1486516821899A3D006805DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1486516A21899A3D006805DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1486516B21899A3D006805DE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		148F4815219534A3000B7F59 /* PlayerDetailsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayerDetailsView.h; sourceTree = "<group>"; };
+		148F4816219534A3000B7F59 /* PlayerDetailsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayerDetailsView.m; sourceTree = "<group>"; };
 		149D830D2190315D001F00B8 /* EpisodesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EpisodesController.h; sourceTree = "<group>"; };
 		149D830E2190315D001F00B8 /* EpisodesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EpisodesController.m; sourceTree = "<group>"; };
 		149D831021903432001F00B8 /* Episode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Episode.h; sourceTree = "<group>"; };
 		149D831121903432001F00B8 /* Episode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Episode.m; sourceTree = "<group>"; };
+		149D8313219044CE001F00B8 /* EpisodeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EpisodeCell.h; sourceTree = "<group>"; };
+		149D8314219044CE001F00B8 /* EpisodeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EpisodeCell.m; sourceTree = "<group>"; };
 		14B863F621899BC500AEA052 /* MainTabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTabBarController.h; sourceTree = "<group>"; };
 		14B863F721899BD000AEA052 /* MainTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabBarController.m; sourceTree = "<group>"; };
 		14B863F921899BD900AEA052 /* SearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchController.h; sourceTree = "<group>"; };
@@ -68,6 +77,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1402235A21913B0400068034 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				1402235B21913B2C00068034 /* NSString_http.h */,
+				1402235C21913B2C00068034 /* NSString_http.m */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		145D3065218C46E700F2C5D1 /* API */ = {
 			isa = PBXGroup;
 			children = (
@@ -82,6 +100,10 @@
 			children = (
 				145D306C218C561F00F2C5D1 /* PodcastCell.h */,
 				145D306D218C561F00F2C5D1 /* PodcastCell.m */,
+				149D8313219044CE001F00B8 /* EpisodeCell.h */,
+				149D8314219044CE001F00B8 /* EpisodeCell.m */,
+				148F4815219534A3000B7F59 /* PlayerDetailsView.h */,
+				148F4816219534A3000B7F59 /* PlayerDetailsView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -107,6 +129,7 @@
 		1486515B21899A39006805DE /* Podcast_ObjC */ = {
 			isa = PBXGroup;
 			children = (
+				1402235A21913B0400068034 /* Extension */,
 				145D3065218C46E700F2C5D1 /* API */,
 				14B863FC21899BEB00AEA052 /* Model */,
 				145D306B218C55E400F2C5D1 /* View */,
@@ -121,6 +144,7 @@
 				1486516721899A3D006805DE /* LaunchScreen.storyboard */,
 				1486516A21899A3D006805DE /* Info.plist */,
 				1486516B21899A3D006805DE /* main.m */,
+				14B864232189A3BF00AEA052 /* Person.swift */,
 			);
 			path = Podcast_ObjC;
 			sourceTree = "<group>";
@@ -130,7 +154,6 @@
 			children = (
 				14B863FE21899BEB00AEA052 /* Podcast.h */,
 				14B863FD21899BEB00AEA052 /* Podcast.m */,
-				14B864232189A3BF00AEA052 /* Person.swift */,
 				149D831021903432001F00B8 /* Episode.h */,
 				149D831121903432001F00B8 /* Episode.m */,
 			);
@@ -284,10 +307,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				149D831221903432001F00B8 /* Episode.m in Sources */,
+				149D8315219044CE001F00B8 /* EpisodeCell.m in Sources */,
 				14B8640221899BF900AEA052 /* ViewController.m in Sources */,
 				14B863FF21899BEB00AEA052 /* Podcast.m in Sources */,
+				148F4817219534A3000B7F59 /* PlayerDetailsView.m in Sources */,
 				145D306A218C471600F2C5D1 /* APIService.m in Sources */,
 				1486516C21899A3D006805DE /* main.m in Sources */,
+				1402235D21913B2C00068034 /* NSString_http.m in Sources */,
 				1486515E21899A3A006805DE /* AppDelegate.m in Sources */,
 				14B864242189A3BF00AEA052 /* Person.swift in Sources */,
 				14B863F821899BD100AEA052 /* MainTabBarController.m in Sources */,
@@ -441,7 +467,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3C8CYW7DN6;
 				INFOPLIST_FILE = Podcast_ObjC/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "seanlin.Podcast-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Podcast_ObjC/Podcast_ObjC-Bridging-Header.h";
@@ -460,7 +489,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3C8CYW7DN6;
 				INFOPLIST_FILE = Podcast_ObjC/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "seanlin.Podcast-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Podcast_ObjC/Podcast_ObjC-Bridging-Header.h";

@@ -9,6 +9,9 @@
 #import "EpisodesController.h"
 #import "Episode.h"
 #import "MWFeedParser.h"
+#import "EpisodeCell.h"
+#import "NSString_http.h"
+#import "PlayerDetailsView.h"
 
 @interface EpisodesController ()
 @property (strong, nonatomic) NSMutableArray *episodes;
@@ -24,7 +27,8 @@ static NSString *cellId = @"cellId";
 }
 
 - (void) parseEpisodesFeedUrlWith: (NSString *)feedUrl {
-    NSURL *url = [NSURL URLWithString:feedUrl];
+    NSString *urlString = [feedUrl toSecureHTTPS];
+    NSURL *url = [NSURL URLWithString:urlString];
     MWFeedParser *feedParser = [[MWFeedParser alloc] initWithFeedURL:url];
     feedParser.delegate = self;
     feedParser.feedParseType = ParseTypeFull;
@@ -38,8 +42,10 @@ static NSString *cellId = @"cellId";
 }
 
 - (void)feedParser:(MWFeedParser *)parser didParseFeedItem:(MWFeedItem *)item {
-    Episode *episode = [[Episode alloc] initWithTitle:item.title];
+    Episode *episode = [[Episode alloc] initWithFeed:item];
+    episode.imageUrl = self.podcast.artworkUrl600;
     [self.episodes addObject:episode];
+
 }
 
 - (void)feedParserDidFinish:(MWFeedParser *)parser {
@@ -56,7 +62,7 @@ static NSString *cellId = @"cellId";
 
 - (void)setupTableView {
     self.tableView.tableFooterView = [UIView new];
-    [self.tableView registerClass:UITableViewCell.self forCellReuseIdentifier:cellId];
+    [self.tableView registerClass:EpisodeCell.self forCellReuseIdentifier:cellId];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -64,10 +70,21 @@ static NSString *cellId = @"cellId";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId forIndexPath:indexPath];
+    EpisodeCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId forIndexPath:indexPath];
     Episode *episode = self.episodes[indexPath.row];
-    cell.textLabel.text = episode.title;
+    cell.episode = episode;
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    PlayerDetailsView *playerDetailsView = [PlayerDetailsView new];
+    playerDetailsView.episode = self.episodes[indexPath.row];
+    [UIApplication.sharedApplication.keyWindow addSubview:playerDetailsView];
+    playerDetailsView.frame = UIApplication.sharedApplication.keyWindow.frame;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 132;
 }
 
 

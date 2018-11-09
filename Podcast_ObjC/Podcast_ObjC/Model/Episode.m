@@ -9,12 +9,16 @@
 #import "Episode.h"
 
 @implementation Episode
-- (id)initWithTitle: (NSString *)title {
+
+- (id)initWithFeed: (MWFeedItem *)item {
     self = [super init];
     if (self) {
-        self.title = title;
+        self.title = item.title;
+        self.date = item.date;
+        self.content = item.summary;
     }
     return self;
 }
+
 
 @end
