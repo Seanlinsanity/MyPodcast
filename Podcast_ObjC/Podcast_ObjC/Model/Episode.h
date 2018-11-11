@@ -15,7 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSDate *date;
 @property (strong, nonatomic) NSString *content;
+@property (strong, nonatomic) NSString *streamUrl;
 @property (strong, nonatomic) NSString *imageUrl;
+@property (strong, nonatomic) NSString *author;
 - (id)initWithFeed: (MWFeedItem *)item;
 @end
 

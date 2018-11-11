@@ -44,6 +44,7 @@ static NSString *cellId = @"cellId";
 - (void)feedParser:(MWFeedParser *)parser didParseFeedItem:(MWFeedItem *)item {
     Episode *episode = [[Episode alloc] initWithFeed:item];
     episode.imageUrl = self.podcast.artworkUrl600;
+    episode.author = self.podcast.artistName;
     [self.episodes addObject:episode];
 
 }

@@ -8,13 +8,39 @@
 
 #import "PlayerDetailsView.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <AVKit/AVKit.h>
+
+@interface PlayerDetailsView()
+@property (strong, nonatomic) AVPlayer *player;
+@end
 
 @implementation PlayerDetailsView
 
 - (void)setEpisode:(Episode *)episode {
-    self.titleLabel.text = episode.title;
-    [self.episodeImageView sd_setImageWithURL:[[NSURL alloc]initWithString:episode.imageUrl]];
     _episode = episode;
+    self.titleLabel.text = episode.title;
+    self.authorLabel.text = episode.author;
+    [self.episodeImageView sd_setImageWithURL:[[NSURL alloc]initWithString:episode.imageUrl]];
+    [self playEpisode];
+}
+
+- (void)playEpisode {
+    NSURL *url = [NSURL URLWithString:self.episode.streamUrl];
+    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:url];
+    self.player = nil;
+    self.player = [[AVPlayer alloc] initWithPlayerItem:playerItem];
+    self.player.automaticallyWaitsToMinimizeStalling = NO;
+    [self.player play];
+}
+
+- (void)handlePlayPause {
+    if (self.player.timeControlStatus == AVPlayerTimeControlStatusPaused){
+        [self.player play];
+        [self.playPauseButton setImage:[[UIImage imageNamed:@"pause"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+    }else{
+        [self.playPauseButton setImage:[[UIImage imageNamed:@"play"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+        [self.player pause];
+    }
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -41,7 +67,7 @@
     timeStackView.translatesAutoresizingMaskIntoConstraints = NO;
     [timeStackView.heightAnchor constraintEqualToConstant:24].active = YES;
     
-    UIStackView *buttonStackView = [[UIStackView alloc] initWithArrangedSubviews:[[NSArray alloc]initWithObjects:self.rewindButton, self.playButton, self.forwardButton, nil]];
+    UIStackView *buttonStackView = [[UIStackView alloc] initWithArrangedSubviews:[[NSArray alloc]initWithObjects:self.rewindButton, self.playPauseButton, self.forwardButton, nil]];
     buttonStackView.axis = UILayoutConstraintAxisHorizontal;
     buttonStackView.translatesAutoresizingMaskIntoConstraints = NO;
     buttonStackView.distribution = UIStackViewDistributionFillProportionally;
@@ -94,7 +120,7 @@
         label.numberOfLines = 0;
         label.textAlignment = NSTextAlignmentCenter;
         label.translatesAutoresizingMaskIntoConstraints = NO;
-        label.font = [UIFont boldSystemFontOfSize:18];
+        label.font = [UIFont boldSystemFontOfSize:20];
         label;
     });
     
@@ -103,7 +129,7 @@
         label.text = @"Author";
         label.textAlignment = NSTextAlignmentCenter;
         label.translatesAutoresizingMaskIntoConstraints = NO;
-        label.font = [UIFont systemFontOfSize:16 weight:UIFontWeightSemibold];
+        label.font = [UIFont systemFontOfSize:18 weight:UIFontWeightSemibold];
         label.textColor = UIColor.purpleColor;
         label;
     });
@@ -114,10 +140,11 @@
         slider;
     });
     
-    self.playButton = ({
+    self.playPauseButton = ({
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
-        [btn setImage:[[UIImage imageNamed:@"play"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+        [btn setImage:[[UIImage imageNamed:@"pause"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
         btn.translatesAutoresizingMaskIntoConstraints = NO;
+        [btn addTarget:self action:@selector(handlePlayPause) forControlEvents:UIControlEventTouchUpInside];
         btn;
     });
     

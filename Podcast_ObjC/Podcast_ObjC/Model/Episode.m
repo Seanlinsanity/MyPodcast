@@ -16,6 +16,8 @@
         self.title = item.title;
         self.date = item.date;
         self.content = item.summary;
+        NSDictionary *dict = item.enclosures.firstObject;
+        self.streamUrl = dict[@"url"];
     }
     return self;
 }
