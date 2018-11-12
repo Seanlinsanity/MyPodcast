@@ -15,21 +15,33 @@
 @end
 
 @implementation PlayerDetailsView
+static CGFloat shrinkScale = 0.7;
 
 - (void)setEpisode:(Episode *)episode {
     _episode = episode;
     self.titleLabel.text = episode.title;
     self.authorLabel.text = episode.author;
     [self.episodeImageView sd_setImageWithURL:[[NSURL alloc]initWithString:episode.imageUrl]];
+    self.episodeImageView.transform = CGAffineTransformScale(self.episodeImageView.transform, shrinkScale, shrinkScale);
     [self playEpisode];
+}
+
+- (void)enlargeEpisodeImageView {
+    [UIView animateWithDuration:0.75 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.episodeImageView.transform = CGAffineTransformIdentity;
+    } completion:nil];
+}
+
+- (void)shrinkEpisodeImageView {
+    [UIView animateWithDuration:0.75 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        self.episodeImageView.transform = CGAffineTransformScale(self.episodeImageView.transform, shrinkScale, shrinkScale);
+    } completion:nil];
 }
 
 - (void)playEpisode {
     NSURL *url = [NSURL URLWithString:self.episode.streamUrl];
     AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:url];
-    self.player = nil;
-    self.player = [[AVPlayer alloc] initWithPlayerItem:playerItem];
-    self.player.automaticallyWaitsToMinimizeStalling = NO;
+    [self.player replaceCurrentItemWithPlayerItem:playerItem];
     [self.player play];
 }
 
@@ -37,9 +49,11 @@
     if (self.player.timeControlStatus == AVPlayerTimeControlStatusPaused){
         [self.player play];
         [self.playPauseButton setImage:[[UIImage imageNamed:@"pause"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
+        [self enlargeEpisodeImageView];
     }else{
         [self.playPauseButton setImage:[[UIImage imageNamed:@"play"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
         [self.player pause];
+        [self shrinkEpisodeImageView];
     }
 }
 
@@ -49,6 +63,16 @@
     if (self) {
         [self initComponents];
         [self setupUI];
+        
+        CMTime time = CMTimeMake(1, 3);
+        NSArray *times = @[[NSValue valueWithCMTime:time]];
+        __weak PlayerDetailsView *wSelf = self;
+
+        [self.player addBoundaryTimeObserverForTimes:times queue:dispatch_get_main_queue() usingBlock:^{
+            NSLog(@"start playing...");
+            [wSelf enlargeEpisodeImageView];
+        }];
+        
     }
     return self;
 }
@@ -111,6 +135,8 @@
         iv.image = [UIImage imageNamed:@"appicon"];
         iv.translatesAutoresizingMaskIntoConstraints = NO;
         iv.contentMode = UIViewContentModeScaleAspectFill;
+        iv.layer.cornerRadius = 8;
+        iv.clipsToBounds = YES;
         iv;
     });
     
@@ -197,6 +223,12 @@
         label.textAlignment = NSTextAlignmentRight;
         label.font = [UIFont systemFontOfSize:16];
         label;
+    });
+    
+    self.player = ({
+        AVPlayer *player = [AVPlayer new];
+        player.automaticallyWaitsToMinimizeStalling = NO;
+        player;
     });
     
 }
