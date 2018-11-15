@@ -8,7 +8,7 @@
 
 #import "PodcastCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "NSString_http.h"
+#import "NSString+extension.h"
 
 @implementation PodcastCell
 

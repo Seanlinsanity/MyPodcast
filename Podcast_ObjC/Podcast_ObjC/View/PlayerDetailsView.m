@@ -9,6 +9,7 @@
 #import "PlayerDetailsView.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <AVKit/AVKit.h>
+#import "NSString+extension.h"
 
 @interface PlayerDetailsView()
 @property (strong, nonatomic) AVPlayer *player;
@@ -57,22 +58,40 @@ static CGFloat shrinkScale = 0.7;
     }
 }
 
+- (void)observePlayerCurrentTime {
+    CMTime interval = CMTimeMake(1, 2);
+    __weak PlayerDetailsView *wSelf = self;
+
+    [self.player addPeriodicTimeObserverForInterval:interval queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+        wSelf.currentTimeLabel.text = [NSString displayStringWithTime:time];
+        wSelf.durationLabel.text = [NSString displayStringWithTime:wSelf.player.currentItem.duration];
+        [wSelf updateCurrentTimeSlider];
+    }];
+}
+
+- (void)updateCurrentTimeSlider {
+    float percentage = CMTimeGetSeconds(self.player.currentTime) / CMTimeGetSeconds(self.player.currentItem.duration);
+    self.slider.value = percentage;
+}
+
+- (void)observePlayerStartPlaying {
+    CMTime time = CMTimeMake(1, 3);
+    NSArray *times = @[[NSValue valueWithCMTime:time]];
+    __weak PlayerDetailsView *wSelf = self;
+    
+    [self.player addBoundaryTimeObserverForTimes:times queue:dispatch_get_main_queue() usingBlock:^{
+        NSLog(@"start playing...");
+        [wSelf enlargeEpisodeImageView];
+    }];
+}
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         [self initComponents];
         [self setupUI];
-        
-        CMTime time = CMTimeMake(1, 3);
-        NSArray *times = @[[NSValue valueWithCMTime:time]];
-        __weak PlayerDetailsView *wSelf = self;
-
-        [self.player addBoundaryTimeObserverForTimes:times queue:dispatch_get_main_queue() usingBlock:^{
-            NSLog(@"start playing...");
-            [wSelf enlargeEpisodeImageView];
-        }];
-        
+        [self observePlayerCurrentTime];
+        [self observePlayerStartPlaying];
     }
     return self;
 }
@@ -212,14 +231,14 @@ static CGFloat shrinkScale = 0.7;
     
     self.currentTimeLabel = ({
         UILabel *label = [UILabel new];
-        label.text = @"00:00:000";
+        label.text = @"00:00";
         label.font = [UIFont systemFontOfSize:16];
         label;
     });
     
     self.durationLabel = ({
         UILabel *label = [UILabel new];
-        label.text = @"88:88:88";
+        label.text = @"00:00";
         label.textAlignment = NSTextAlignmentRight;
         label.font = [UIFont systemFontOfSize:16];
         label;

@@ -10,7 +10,7 @@
 #import "Episode.h"
 #import "MWFeedParser.h"
 #import "EpisodeCell.h"
-#import "NSString_http.h"
+#import "NSString+extension.h"
 #import "PlayerDetailsView.h"
 
 @interface EpisodesController ()

@@ -7,11 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AVKit/AVKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSString(http)
+@interface NSString(extension)
 - (NSString*)toSecureHTTPS;
++ (NSString*)displayStringWithTime: (CMTime)time;
 @end
 
 NS_ASSUME_NONNULL_END
