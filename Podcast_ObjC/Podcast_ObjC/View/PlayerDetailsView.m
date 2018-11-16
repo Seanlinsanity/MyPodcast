@@ -58,6 +58,32 @@ static CGFloat shrinkScale = 0.7;
     }
 }
 
+- (void)handleTimeSlider {
+    float value = self.timeSlider.value;
+    float time = CMTimeGetSeconds(self.player.currentItem.duration) * value;
+    [self.player seekToTime:CMTimeMakeWithSeconds(time, NSEC_PER_SEC)];
+    [self.player play];
+}
+
+- (void)handleFastForward{
+    [self seekToCurrentTimeWithDelta:15];
+}
+
+- (void)handleRewind{
+    [self seekToCurrentTimeWithDelta:-15];
+}
+
+- (void)seekToCurrentTimeWithDelta: (int)delta {
+    CMTime fifteenSeconds = CMTimeMake(delta, 1);
+    CMTime seekTime = CMTimeAdd(self.player.currentTime, fifteenSeconds);
+    [self.player seekToTime:seekTime];
+    [self.player play];
+}
+
+- (void)handleVolumeChange{
+    self.player.volume = self.volumeSlider.value;
+}
+
 - (void)observePlayerCurrentTime {
     CMTime interval = CMTimeMake(1, 2);
     __weak PlayerDetailsView *wSelf = self;
@@ -71,7 +97,7 @@ static CGFloat shrinkScale = 0.7;
 
 - (void)updateCurrentTimeSlider {
     float percentage = CMTimeGetSeconds(self.player.currentTime) / CMTimeGetSeconds(self.player.currentItem.duration);
-    self.slider.value = percentage;
+    self.timeSlider.value = percentage;
 }
 
 - (void)observePlayerStartPlaying {
@@ -84,6 +110,7 @@ static CGFloat shrinkScale = 0.7;
         [wSelf enlargeEpisodeImageView];
     }];
 }
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -101,7 +128,7 @@ static CGFloat shrinkScale = 0.7;
     
     [self.dismissButton.heightAnchor constraintEqualToConstant:44].active = YES;
     [self.episodeImageView.heightAnchor constraintEqualToAnchor:self.episodeImageView.widthAnchor multiplier:1].active = YES;
-    [self.slider.heightAnchor constraintEqualToConstant:40].active = YES;
+    [self.timeSlider.heightAnchor constraintEqualToConstant:40].active = YES;
     [self.titleLabel.heightAnchor constraintGreaterThanOrEqualToConstant:20].active = YES;
     [self.authorLabel.heightAnchor constraintEqualToConstant:20].active = YES;
     
@@ -122,7 +149,7 @@ static CGFloat shrinkScale = 0.7;
     volumeStackView.distribution = UIStackViewDistributionFill;
     [volumeStackView.heightAnchor constraintEqualToConstant:36].active = YES;
 
-    UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:[[NSArray alloc]initWithObjects:self.dismissButton, self.episodeImageView, self.slider, timeStackView, self.titleLabel, self.authorLabel, buttonStackView, volumeStackView, nil]];
+    UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:[[NSArray alloc]initWithObjects:self.dismissButton, self.episodeImageView, self.timeSlider, timeStackView, self.titleLabel, self.authorLabel, buttonStackView, volumeStackView, nil]];
     stackView.axis = UILayoutConstraintAxisVertical;
     stackView.distribution = UIStackViewDistributionFill;
     stackView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -179,9 +206,10 @@ static CGFloat shrinkScale = 0.7;
         label;
     });
     
-    self.slider = ({
+    self.timeSlider = ({
         UISlider *slider = [UISlider new];
         slider.translatesAutoresizingMaskIntoConstraints = NO;
+        [slider addTarget:self action:@selector(handleTimeSlider) forControlEvents:UIControlEventValueChanged];
         slider;
     });
     
@@ -197,6 +225,7 @@ static CGFloat shrinkScale = 0.7;
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
         [btn setImage:[[UIImage imageNamed:@"rewind"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
         btn.translatesAutoresizingMaskIntoConstraints = NO;
+        [btn addTarget:self action:@selector(handleRewind) forControlEvents:UIControlEventTouchUpInside];
         btn;
     });
     
@@ -204,12 +233,15 @@ static CGFloat shrinkScale = 0.7;
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
         [btn setImage:[[UIImage imageNamed:@"fastforward"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
         btn.translatesAutoresizingMaskIntoConstraints = NO;
+        [btn addTarget:self action:@selector(handleFastForward) forControlEvents:UIControlEventTouchUpInside];
         btn;
     });
     
     self.volumeSlider = ({
         UISlider *slider = [UISlider new];
         slider.translatesAutoresizingMaskIntoConstraints = NO;
+        [slider addTarget:self action:@selector(handleVolumeChange) forControlEvents:UIControlEventValueChanged];
+        slider.value = 1;
         slider;
     });
     
@@ -250,6 +282,11 @@ static CGFloat shrinkScale = 0.7;
         player;
     });
     
+}
+
+- (void)dealloc
+{
+    NSLog(@"PlayerDetailsView memory being released...");
 }
 
 @end

@@ -15,6 +15,7 @@
 @interface SearchController ()
 @property (nonatomic, strong) NSMutableArray *podcasts;
 @property (nonatomic, strong) UISearchController *searchController;
+@property (nonatomic, strong) NSTimer *timer;
 @end
 
 @implementation SearchController
@@ -39,12 +40,17 @@ static NSString *cellId = @"cellId";
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    [[APIService sharedInstance] fetchPodcastsWithSearchText:searchText withCompletion:^(NSMutableArray * _Nonnull podcasts) {
-        self.podcasts = podcasts;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-        });
+    [self.timer invalidate];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5 repeats:NO block:^(NSTimer * _Nonnull timer) {
+        [[APIService sharedInstance] fetchPodcastsWithSearchText:searchText withCompletion:^(NSMutableArray * _Nonnull podcasts) {
+            
+            self.podcasts = podcasts;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
+        }];
     }];
+    
 }
 
 //MARK:- Setup TableView

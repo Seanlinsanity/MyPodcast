@@ -88,5 +88,16 @@ static NSString *cellId = @"cellId";
     return 132;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    activityView.color = UIColor.darkGrayColor;
+    [activityView startAnimating];
+    return activityView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return self.episodes.count == 0 ? 160 : 0;
+}
+
 
 @end
