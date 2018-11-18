@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UILabel *currentTimeLabel;
 @property (strong, nonatomic) UILabel *durationLabel;
 
-@property (strong, nonatomic) Episode *episode;
+@property (strong, nonatomic) Episode * _Nullable episode;
 @end
 
 NS_ASSUME_NONNULL_END

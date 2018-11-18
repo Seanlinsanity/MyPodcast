@@ -10,6 +10,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <AVKit/AVKit.h>
 #import "NSString+extension.h"
+#import "MainTabBarController.h"
 
 @interface PlayerDetailsView()
 @property (strong, nonatomic) AVPlayer *player;
@@ -20,11 +21,15 @@ static CGFloat shrinkScale = 0.7;
 
 - (void)setEpisode:(Episode *)episode {
     _episode = episode;
-    self.titleLabel.text = episode.title;
-    self.authorLabel.text = episode.author;
-    [self.episodeImageView sd_setImageWithURL:[[NSURL alloc]initWithString:episode.imageUrl]];
-    self.episodeImageView.transform = CGAffineTransformScale(self.episodeImageView.transform, shrinkScale, shrinkScale);
-    [self playEpisode];
+
+    if (episode) {
+        self.titleLabel.text = episode.title;
+        self.authorLabel.text = episode.author;
+        [self.episodeImageView sd_setImageWithURL:[[NSURL alloc]initWithString:episode.imageUrl]];
+        self.episodeImageView.transform = CGAffineTransformScale(self.episodeImageView.transform, shrinkScale, shrinkScale);
+        [self playEpisode];
+    }
+
 }
 
 - (void)enlargeEpisodeImageView {
@@ -119,8 +124,19 @@ static CGFloat shrinkScale = 0.7;
         [self setupUI];
         [self observePlayerCurrentTime];
         [self observePlayerStartPlaying];
+        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapMaximize)]];
     }
     return self;
+}
+
+- (void)handleTapMaximize {
+    MainTabBarController *mainTabBarController = (MainTabBarController*)UIApplication.sharedApplication.keyWindow.rootViewController;
+    [mainTabBarController maximizePlayerDetailsViewWithEpisode:nil];
+}
+
+- (void)handleDismiss {
+    MainTabBarController *mainTabBarController = (MainTabBarController*)UIApplication.sharedApplication.keyWindow.rootViewController;
+    [mainTabBarController minimizePlayerDetailsView];
 }
 
 - (void)setupUI {
@@ -160,10 +176,6 @@ static CGFloat shrinkScale = 0.7;
     [stackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-24].active = YES;
     [stackView.bottomAnchor constraintEqualToAnchor:self.safeAreaLayoutGuide.bottomAnchor constant:-24].active = YES;
     
-}
-
-- (void)handleDismiss {
-    [self removeFromSuperview];
 }
 
 - (void)initComponents {

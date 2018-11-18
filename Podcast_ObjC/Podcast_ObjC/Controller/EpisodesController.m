@@ -12,6 +12,7 @@
 #import "EpisodeCell.h"
 #import "NSString+extension.h"
 #import "PlayerDetailsView.h"
+#import "MainTabBarController.h"
 
 @interface EpisodesController ()
 @property (strong, nonatomic) NSMutableArray *episodes;
@@ -78,10 +79,12 @@ static NSString *cellId = @"cellId";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    PlayerDetailsView *playerDetailsView = [PlayerDetailsView new];
-    playerDetailsView.episode = self.episodes[indexPath.row];
-    [UIApplication.sharedApplication.keyWindow addSubview:playerDetailsView];
-    playerDetailsView.frame = UIApplication.sharedApplication.keyWindow.frame;
+    MainTabBarController *mainTabBarController = (MainTabBarController*)UIApplication.sharedApplication.keyWindow.rootViewController;
+    [mainTabBarController maximizePlayerDetailsViewWithEpisode:self.episodes[indexPath.row]];
+//    PlayerDetailsView *playerDetailsView = [PlayerDetailsView new];
+//    playerDetailsView.episode = self.episodes[indexPath.row];
+//    [UIApplication.sharedApplication.keyWindow addSubview:playerDetailsView];
+//    playerDetailsView.frame = UIApplication.sharedApplication.keyWindow.frame;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
